@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+<link rel="stylesheet" href="main.css"/>
+<title>Hello, world!</title>
+
+<style>
+	/* * {padding: 5px; margin: 5px;} */
+	/* html * { border: 1px solid slateblue; }
+	body * > * {border: 1px solid orange;} */
+	.wrap {
+		display: flex;
+		flex-flow: column nowrap;
+		min-height: 100vh;
+	}
+	.main {
+		flex: 1 0 auto;
+		display: flex;
+		flex-flow: row nowrap;
+	}
+	.content{
+		flex: 1 0 auto;
+	}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<div class="navbar navbar-expand navbar-dark bg-dark">
+	<div class="collapse navbar-collapse justify-content-between">
+		<div class="navbar-text">Name Last</div>
+		<div class="navbar-nav">
+			<a class="nav-item nav-link" href="/logout">Logout</a>
+			<a class="nav-item nav-link" href="/products">Back to shop</a>
+		</div>
+	</div>
+</div>
+
+<div class="main">
+
+	<div class="navbar-nav navbar-light bg-light flex-column col-auto p-2">
+		<a class="nav-link px-3" href="/products">Products</a>
+		<a class="nav-link px-3" href="/categories">Categories</a>
+		<a class="nav-link px-3" href="/users">Users</a>
+		<a class="nav-link px-3" href="/orders">Orders</a>
+	</div>
+
+	<div class="content container p-2">
+
+		<h2 class="border-bottom">Caption</h2>
+
+		<p><a href="create">Create</a></p>
+
+		<table id="table" class="table table-sm table-bordered table-hover">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>y</th>
+					<th>1</th>
+					<th>2</th>
+				</tr>
+			</thead>
+			<tbody class=""></tbody>
+		</table>
+	</div>
+
+</div>
+
+<div class="navbar navbar-dark bg-dark">
+	<div class="navbar-text py-0">footer</div>
+	<div class="navbar-text py-0">footer</div>
+</div>
+
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script scr="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.js"></script>
+<script>
+
+function updateLink(id) {
+	return '<a href="update" data-id="' + id + '">Update</a>';
+}
+
+function deleteLink(id) {
+	return '<a href="delete" data-id="' + id + '">Delete</a>';
+}
+
+function createEntity(data) {
+	console.log('_create_');
+	return false;
+}
+
+function updateEntity(data) {
+	console.log('_update_');
+	return false;
+}
+
+function deleteEntity(data) {
+	console.log('_delete_');
+	return false;
+}
+
+function showTable() {
+
+	for(let i = 0; i < 5; i++) {
+		const trow = '<tr>' +
+			'<td>' + i + '</td>' +
+			'<td>' + i + '</td>' +
+			'<td>' + updateLink(0) + '</td>' +
+			'<td>' + deleteLink(0) + '</td>' +
+			'</tr>';
+		$('#table tbody').append(trow);
+	}
+}
+
+$(function() {
+	showTable();
+
+	$('a[href="create"]').on('click', createEntity);
+	$('a[href="update"]').on('click', updateEntity);
+	$('a[href="delete"]').on('click', deleteEntity);
+});
+
+</script>
+</body>
+</html>

@@ -48,7 +48,7 @@ public class AdminProductsController {
 
 
     @PostMapping("create")
-    public String submitCreate(Product product, BindingResult result) {
+    public String submitCreate(Model model, Product product, BindingResult result) {
         validator.validate(product, result);
         if (!result.hasErrors()) {
 
@@ -56,6 +56,8 @@ public class AdminProductsController {
 
             return "redirect:all";
         }
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("action", "create");
         return "admin/product";
     }
 
@@ -72,7 +74,7 @@ public class AdminProductsController {
 
 
     @PostMapping("{id}/update")
-    public String update(Product product, BindingResult result) {
+    public String update(Model model, Product product, BindingResult result) {
         validator.validate(product, result);
         if (!result.hasErrors()) {
 
@@ -80,6 +82,8 @@ public class AdminProductsController {
 
             return "redirect:../all";
         }
+        model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("action", "update");
         return "admin/product";
     }
 

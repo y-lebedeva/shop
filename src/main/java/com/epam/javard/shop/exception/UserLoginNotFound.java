@@ -5,7 +5,7 @@ public class UserLoginNotFound extends Exception {
     private final String message;
 
     public UserLoginNotFound(String login) {
-        message = login + ": user not found";
+        message = "UserLoginNotFound\n" + login + ": user not found";
     }
 
     @Override

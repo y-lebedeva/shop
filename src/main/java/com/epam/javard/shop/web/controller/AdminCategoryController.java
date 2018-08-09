@@ -1,63 +1,60 @@
 package com.epam.javard.shop.web.controller;
 
-import com.epam.javard.shop.dto.Product;
+import com.epam.javard.shop.dto.Category;
 import com.epam.javard.shop.dto.Role;
 import com.epam.javard.shop.service.CategoryService;
-import com.epam.javard.shop.service.ProductService;
 import com.epam.javard.shop.web.manager.UserManager;
-import com.epam.javard.shop.web.validator.ProductValidator;
+import com.epam.javard.shop.web.validator.CategoryValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 @Controller
-@RequestMapping(path = "admin/product")
-public class AdminProductsController {
+@RequestMapping(path = "admin/category")
+public class AdminCategoryController {
 
     @Autowired
-    private ProductService productService;
+    private CategoryValidator validator;
 
     @Autowired
     private CategoryService categoryService;
 
     @Autowired
-    private ProductValidator validator;
-
-    @Autowired
     private UserManager userManager;
-    
 
     @GetMapping("all")
     public String products (Model model) {
 
-        model.addAttribute("products", productService.findAll());
+        model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("user", userManager.getCurrentUser());
 
-        return "admin/products";
+        return "admin/categories";
     }
-
 
     @GetMapping("create")
     public String create(Model model) {
 
-        model.addAttribute("product", new Product());
+        model.addAttribute("category", new Category());
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("action", "create");
         model.addAttribute("user", userManager.getCurrentUser());
 
-        return "admin/product";
+        return "admin/category";
     }
 
 
     @PostMapping("create")
-    public String submitCreate(Model model, Product product, BindingResult result) {
+    public String submitCreate(Model model, Category category, BindingResult result) {
 
-        validator.validate(product, result);
+        validator.validate(category, result);
         if (!result.hasErrors()) {
 
-            productService.createProduct(product);
+            categoryService.create(category);
 
             return "redirect:all";
         }
@@ -66,29 +63,29 @@ public class AdminProductsController {
         model.addAttribute("action", "create");
         model.addAttribute("user", userManager.getCurrentUser());
 
-        return "admin/product";
+        return "admin/category";
     }
 
 
     @GetMapping("{id}/update")
     public String update(Model model, @PathVariable Long id) {
 
-        model.addAttribute("product", productService.getProductById(id));
+        model.addAttribute("category", categoryService.getCategoryById(id));
         model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("action", "update");
         model.addAttribute("user", userManager.getCurrentUser());
 
-        return "admin/product";
+        return "admin/category";
     }
 
 
     @PostMapping("{id}/update")
-    public String update(Model model, Product product, BindingResult result) {
+    public String update(Model model, Category category, BindingResult result) {
 
-        validator.validate(product, result);
+        validator.validate(category, result);
         if (!result.hasErrors()) {
 
-            productService.updateProduct(product);
+            categoryService.update(category);
 
             return "redirect:../all";
         }
@@ -97,14 +94,14 @@ public class AdminProductsController {
         model.addAttribute("action", "update");
         model.addAttribute("user", userManager.getCurrentUser());
 
-        return "admin/product";
+        return "admin/category";
     }
 
 
     @GetMapping("{id}/delete")
     public String delete(@PathVariable Long id) {
 
-        productService.deleteProductById(id);
+        categoryService.delete(id);
 
         return "redirect:../all";
     }

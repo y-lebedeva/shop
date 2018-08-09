@@ -2,6 +2,7 @@ package com.epam.javard.shop.dto;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "category", schema = "myapp")
@@ -27,6 +28,7 @@ public class Category {
     private List<Category> children;
 
     @OneToMany(mappedBy = "category")
+//    @OneToMany(mappedBy = "category")
     private List<Product> products;
 
     public Long getId() {
@@ -83,9 +85,9 @@ public class Category {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", parent=" + parent +
-                ", children=" + children +
-                ", products=" + products +
+                ", parent=" + (parent != null? parent.name :null)+
+                ", children=" + children.stream().map(Category::getName).collect(Collectors.joining(", ")) +
+                ", products=" + products.stream().map(Product::getName).collect(Collectors.joining(", ")) +
                 '}';
     }
 }

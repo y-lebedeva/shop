@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -28,12 +29,14 @@ public class RegController {
     @GetMapping("registration")
     public String index(Model model) {
         model.addAttribute("user", new User());
+        model.addAttribute("title", "Registration");
         return "registration";
     }
 
 
     @PostMapping("registration")
-    public String registration(Model model, User user, BindingResult result) throws UserLoginError, UserLoginExists {
+    public String registration(Model model, User user, BindingResult result)
+            throws UserLoginError, UserLoginExists {
 
         validator.validate(user, result);
 
@@ -43,7 +46,20 @@ public class RegController {
 
             return "redirect:products";
         }
+        model.addAttribute("title", "Registration");
         return "registration";
+    }
+
+    @ExceptionHandler(UserLoginError.class)
+    public String userLoginError(Model model, UserLoginError e) {
+        model.addAttribute("message", e.getMessage());
+        return "error";
+    }
+
+    @ExceptionHandler(UserLoginExists.class)
+    public String userLoginExists(Model model, UserLoginExists e) {
+        model.addAttribute("message", e.getMessage());
+        return "error";
     }
 
 }

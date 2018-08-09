@@ -34,6 +34,9 @@ public class User {
     @Column(name = "phone")
     private String phone;
 
+    @Transient
+    private String confirm;
+
 
     @OneToMany(mappedBy = "user")
     private List<Order> orders;
@@ -110,6 +113,14 @@ public class User {
         this.orders = orders;
     }
 
+    public String getConfirm() {
+        return confirm;
+    }
+
+    public void setConfirm(String confirm) {
+        this.confirm = confirm;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -121,7 +132,7 @@ public class User {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
-                ", order=" + orders +
+                //", order=" + orders +
                 '}';
     }
 }

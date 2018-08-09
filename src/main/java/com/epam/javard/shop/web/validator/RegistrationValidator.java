@@ -5,6 +5,7 @@ import com.epam.javard.shop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 @Service
@@ -23,8 +24,24 @@ public class RegistrationValidator implements Validator {
 
         User user = (User) o;
 
-        if (!userService.canBeRegistered(user)) {
-            errors.rejectValue("login", "label.validate.authError");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "firstName", "label.validate.firstNameEmpty");
+
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "lastName", "label.validate.lastNameEmpty");
+
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "login", "label.validate.loginEmpty");
+
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "label.validate.passwordEmpty");
+
+        if (!userService.validLogin(user.getLogin())) {
+            errors.rejectValue("login", "label.validate.loginIncorrect");
+        }
+
+        if (userService.loginExists(user.getLogin())) {
+            errors.rejectValue("login", "label.validate.loginExists");
+        }
+
+        if (!user.getPassword().equals(user.getConfirm())) {
+            errors.rejectValue("confirm", "label.validate.notConfirmed");
         }
     }
 }

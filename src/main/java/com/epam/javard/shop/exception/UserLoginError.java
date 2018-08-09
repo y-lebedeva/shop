@@ -5,7 +5,7 @@ public class UserLoginError extends Exception {
     private final String message;
 
     public UserLoginError(String login) {
-        message = login + ": login not valid";
+        message = "UserLoginError\n" + login + ": login not valid";
     }
 
     @Override

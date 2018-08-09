@@ -1,5 +1,6 @@
 package com.epam.javard.shop.service.impl;
 
+import com.epam.javard.shop.dto.Role;
 import com.epam.javard.shop.dto.User;
 import com.epam.javard.shop.exception.UserLoginError;
 import com.epam.javard.shop.exception.UserLoginExists;
@@ -21,8 +22,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User authorisation(User user) throws UserLoginNotFound {
 
-        User result = userRepository.findByLoginAndPassword(user.getLogin(), user.getPassword()).stream().findFirst().orElse(null);
-
+        User result = userRepository.findByLoginAndPassword(user.getLogin(), user.getPassword());
         if (result != null) {
             return result;
         }
@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User registration(User user) throws UserLoginError, UserLoginExists {
 
-        if (!validateLogin(user.getLogin())) {
+        if (!validLogin(user.getLogin())) {
             throw new UserLoginError(user.getLogin());
         }
 
@@ -41,26 +41,27 @@ public class UserServiceImpl implements UserService {
             throw new UserLoginExists(user.getLogin());
         }
 
+        if (user.getRole() == null) {
+            user.setRole(Role.USER);
+        }
+
         return userRepository.save(user);
     }
 
-    private boolean validateLogin(String login) {
+    @Override
+    public boolean validLogin(String login) {
         Pattern pattern = Pattern.compile("[a-zA-Z0-9_]{3,}");
         Matcher matcher = pattern.matcher(login);
         return matcher.find();
     }
 
     @Override
-    public boolean canBeAuthorized(User user) {
-        return userRepository.findByLoginAndPassword(user.getLogin(), user.getPassword()) != null;
+    public boolean loginExists(String login) {
+        return userRepository.findByLogin(login) != null;
     }
 
     @Override
-    public boolean canBeRegistered(User user) {
-        return user != null
-                && user.getLogin() != null
-                && user.getPassword() != null
-                && validateLogin(user.getLogin())
-                && userRepository.findByLogin(user.getLogin()) == null;
+    public boolean canBeAuthorized(User user) {
+        return userRepository.findByLoginAndPassword(user.getLogin(), user.getPassword()) != null;
     }
 }

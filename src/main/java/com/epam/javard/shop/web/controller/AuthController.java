@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -29,12 +30,13 @@ public class AuthController {
     @GetMapping("login")
     public String index(Model model) {
         model.addAttribute("user", new User());
+        model.addAttribute("title", "Authorization");
         return "login";
     }
 
 
     @PostMapping("login")
-    public String login(User user, BindingResult result) throws UserLoginNotFound {
+    public String login(Model model, User user, BindingResult result) throws UserLoginNotFound {
         validator.validate(user, result);
 
         if (!result.hasErrors()) {
@@ -43,6 +45,7 @@ public class AuthController {
 
             return "redirect:products";
         }
+        model.addAttribute("title", "Authorization");
         return "login";
     }
 
@@ -52,6 +55,12 @@ public class AuthController {
         request.getSession().invalidate();
         userManager.setCurrentUser(null);
         return "redirect:login";
+    }
+
+    @ExceptionHandler(UserLoginNotFound.class)
+    public String userLoginNotFound(Model model, UserLoginNotFound e) {
+        model.addAttribute("message", e.getMessage());
+        return "error";
     }
 
 }

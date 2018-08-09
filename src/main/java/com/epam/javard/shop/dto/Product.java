@@ -82,7 +82,7 @@ public class Product {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", category=" + category.getName() +
+                ", category=" + (category != null ? category.getName() : null) +
                 ", price=" + price +
                 ", amount=" + amount +
                 '}';

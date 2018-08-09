@@ -1,0 +1,26 @@
+.wrap {
+    display: flex;
+    flex-flow: column nowrap;
+    min-height: 100vh;
+}
+.main {
+    flex: 1 0 auto;
+    display: flex;
+    flex-flow: row nowrap;
+}
+.content{
+    flex: 1 0 auto;
+}
+
+.edit-form {
+    max-width: 400px;
+}
+
+textarea {
+    min-height: 2.5em;
+}
+
+.footer {
+    background-color: #e3e7e8;
+    color: rgba(0, 0, 0, 0.45);
+}

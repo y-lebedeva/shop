@@ -13,5 +13,7 @@ public interface UserService {
 
     boolean canBeAuthorized(User user);
 
-    boolean canBeRegistered(User user);
+    boolean validLogin(String login);
+
+    boolean loginExists(String login);
 }

@@ -1,50 +1,65 @@
 <%@page contentType="text/html;charset=UTF-8" language="java"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@include file="../shared/header.jsp"%>
 
-<h2>Products</h2>
 
-<%--
-<form:form method="POST" action="/product/create" modelAttribute="product">
-    <form:label path="name">Name</form:label><br/>
-    <form:input path="name"/><br/>
-    <form:errors path="name"/><br/>
+<c:forEach items="${categories}" var="category">
 
-    <form:label path="description">Description</form:label><br/>
-    <form:input path="description"/><br/>
-    <form:errors path="description"/><br/>
+<c:if test="${!category.products.isEmpty()}">
+<div class="category">
+    <div class="category-header navbar navbar-expand-sm navbar-light bg-light
+        justify-content-center font-weight-bold sticky-top">
+        ${category.getName()}
+    </div>
 
-    <form:label path="price">Price</form:label><br/>
-    <form:input path="price"/><br/>
-    <form:errors path="price"/><br/>
+    <div class="products container d-flex flex-wrap p-2">
 
-    <form:label path="amount">Amount</form:label><br/>
-    <form:input path="amount"/><br/>
-    <form:errors path="amount"/><br/>
+    <c:forEach items="${category.products}" var="product">
 
-    <button type="submit">Create New Product</button>
-</form:form>
---%>
+        <div class="product m-2 border rounded">
+            <img src="product.png" width="150" height="150">
+            <span class="product-name m-2">${product.name}</span>
+            <p class="product-price m-2"><span class="product-price-value m-2">${product.price}</span>$</p>
+            <a class="add-basket btn btn-outline-success m-4" href="product/${product.id}/add">В корзину</a>
+        </div>
 
-<table border="1">
-<c:forEach items="${products}" var="producti">
-    <tr>
-        <td>${producti.getId()}</td>
-        <td>${producti.getName()}</td>
-        <td>${producti.getPrice()}</td>
-        <td>${producti}</td>
-        <%--
-        <td>
-            <form:form method="POST" action="/product/update/${producti.getId()}">
-                <button type="submit">Delete</button>
-            </form:form>
-        </td>
-        <td>
-            <form:form method="POST" action="/product/delete/${producti.getId()}">
-                <button type="submit">Delete</button>
-            </form:form>
-        </td>
-        --%>
-    </tr>
+    </c:forEach>
+
+    </div>
+</div>
+</c:if>
+
 </c:forEach>
-</table>
+
+
+<c:if test="${!products.isEmpty()}">
+<div class="category">
+    <div class="category-header navbar navbar-expand-sm navbar-light bg-light
+        justify-content-center font-weight-bold sticky-top">
+        Uncategorized
+    </div>
+
+    <div class="products container d-flex flex-wrap p-2">
+
+    <c:forEach items="${products}" var="product">
+
+        <div class="product m-2 border rounded">
+            <img src="product.png" width="150" height="150">
+            <span class="product-name m-2">${product.name}</span>
+            <p class="product-price m-2"><span class="product-price-value m-2">${product.price}</span>$</p>
+            <a class="add-basket btn btn-outline-success m-4" href="product/${product.id}/add">В корзину</a>
+        </div>
+
+    </c:forEach>
+
+    </div>
+</div>
+</c:if>
+
+<%@include file="../shared/footer.jsp"%>
+
+
+
+
+

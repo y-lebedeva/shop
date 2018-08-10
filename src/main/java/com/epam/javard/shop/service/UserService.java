@@ -5,6 +5,8 @@ import com.epam.javard.shop.exception.UserLoginError;
 import com.epam.javard.shop.exception.UserLoginExists;
 import com.epam.javard.shop.exception.UserLoginNotFound;
 
+import java.util.List;
+
 public interface UserService {
 
     User authorisation(User user) throws UserLoginNotFound;
@@ -16,4 +18,14 @@ public interface UserService {
     boolean validLogin(String login);
 
     boolean loginExists(String login);
+
+    List<User> getAll();
+
+    User create(User user);
+
+    User getUserById(Long id);
+
+    void update(User user);
+
+    void delete(Long id);
 }

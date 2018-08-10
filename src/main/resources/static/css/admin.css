@@ -24,3 +24,10 @@ textarea {
     background-color: #e3e7e8;
     color: rgba(0, 0, 0, 0.45);
 }
+
+td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 140px;
+}

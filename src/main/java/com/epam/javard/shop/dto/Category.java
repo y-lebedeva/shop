@@ -27,7 +27,7 @@ public class Category {
     @OneToMany(mappedBy = "parent")
     private List<Category> children;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", cascade = {CascadeType.DETACH})
 //    @OneToMany(mappedBy = "category")
     private List<Product> products;
 

@@ -10,6 +10,8 @@ import com.epam.javard.shop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,6 +60,35 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean loginExists(String login) {
         return userRepository.findByLogin(login) != null;
+    }
+
+    @Override
+    public List<User> getAll() {
+        List<User> users = new ArrayList<>();
+        userRepository.findAll().forEach(users::add);
+        return users;
+    }
+
+    @Override
+    public User create(User user) {
+        if (validLogin(user.getLogin()))
+            return userRepository.save(user);
+        return null;
+    }
+
+    @Override
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public void update(User user) {
+        userRepository.save(user);
+    }
+
+    @Override
+    public void delete(Long id) {
+        userRepository.deleteById(id);
     }
 
     @Override

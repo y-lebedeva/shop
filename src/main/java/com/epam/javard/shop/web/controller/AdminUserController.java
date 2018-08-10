@@ -2,6 +2,8 @@ package com.epam.javard.shop.web.controller;
 
 import com.epam.javard.shop.dto.Role;
 import com.epam.javard.shop.dto.User;
+import com.epam.javard.shop.repository.UserRepository;
+import com.epam.javard.shop.repository.UserRepositoryJpql;
 import com.epam.javard.shop.service.UserService;
 import com.epam.javard.shop.web.manager.UserManager;
 import com.epam.javard.shop.web.validator.RegistrationValidator;
@@ -24,8 +26,14 @@ public class AdminUserController {
     @Autowired
     private UserManager userManager;
 
+    @Autowired
+    private UserRepositoryJpql userRepositoryJpql;
+
     @GetMapping("all")
     public String index(Model model) {
+
+        System.out.println(userRepositoryJpql.findAll());
+        //System.out.println(userRepositoryJpql.gtUserById(1L));
 
         model.addAttribute("users", userService.getAll());
         model.addAttribute("user", userManager.getCurrentUser());

@@ -6,6 +6,7 @@ import com.epam.javard.shop.exception.UserLoginError;
 import com.epam.javard.shop.exception.UserLoginExists;
 import com.epam.javard.shop.exception.UserLoginNotFound;
 import com.epam.javard.shop.repository.UserRepository;
+import com.epam.javard.shop.repository.UserRepositoryJdbc;
 import com.epam.javard.shop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,8 @@ import java.util.regex.Pattern;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserRepository userRepository;
+//    private UserRepository userRepository;
+    private UserRepositoryJdbc userRepository;
 
     @Override
     public User authorisation(User user) throws UserLoginNotFound {

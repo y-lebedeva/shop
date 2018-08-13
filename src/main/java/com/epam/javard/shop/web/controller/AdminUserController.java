@@ -2,8 +2,6 @@ package com.epam.javard.shop.web.controller;
 
 import com.epam.javard.shop.dto.Role;
 import com.epam.javard.shop.dto.User;
-import com.epam.javard.shop.repository.UserRepository;
-import com.epam.javard.shop.repository.UserRepositoryJpql;
 import com.epam.javard.shop.service.UserService;
 import com.epam.javard.shop.web.manager.UserManager;
 import com.epam.javard.shop.web.validator.RegistrationValidator;
@@ -26,14 +24,8 @@ public class AdminUserController {
     @Autowired
     private UserManager userManager;
 
-    @Autowired
-    private UserRepositoryJpql userRepositoryJpql;
-
     @GetMapping("all")
     public String index(Model model) {
-
-        System.out.println(userRepositoryJpql.findAll());
-        //System.out.println(userRepositoryJpql.gtUserById(1L));
 
         model.addAttribute("users", userService.getAll());
         model.addAttribute("user", userManager.getCurrentUser());
@@ -54,12 +46,12 @@ public class AdminUserController {
 
 
     @PostMapping("create")
-    public String submitCreate(Model model, User user, BindingResult result) {
+    public String submitCreate(Model model, @ModelAttribute("newUser") User newUser, BindingResult result) {
 
-        validator.validate(user, result);
+        validator.validate(newUser, result);
         if (!result.hasErrors()) {
 
-            userService.create(user);
+            userService.create(newUser);
 
             return "redirect:all";
         }
@@ -85,21 +77,21 @@ public class AdminUserController {
 
 
     @PostMapping("{id}/update")
-    public String update(Model model, User user, BindingResult result) {
+    public String update(Model model, @ModelAttribute("newUser") User newUser, BindingResult result) {
 
-        validator.validate(user, result);
-        if (!result.hasErrors()) {
+        //validator.validate(newUser, result);
+        //if (!result.hasErrors()) {
 
-            userService.update(user);
+            userService.update(newUser);
 
             return "redirect:../all";
-        }
+        //}
 
-        model.addAttribute("users", userService.getAll());
-        model.addAttribute("action", "update");
-        model.addAttribute("user", userManager.getCurrentUser());
+        //model.addAttribute("users", userService.getAll());
+        //model.addAttribute("action", "update");
+        //model.addAttribute("user", userManager.getCurrentUser());
 
-        return "admin/user";
+        //return "admin/user";
     }
 
 

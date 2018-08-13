@@ -30,21 +30,15 @@
     </div>
 
     <div class="form-group">
-        <form:label path="password">Password</form:label>
-        <form:password path="password" class="form-control"/>
-        <form:errors path="password" class="invalid-feedback d-block"/>
+        <form:select path="role">
+            <form:options items="${roles}" itemValue="name" itemLabel="name" />
+        </form:select>
     </div>
 
     <div class="form-group">
-        <form:label path="role">Parent</form:label>
-        <form:select path="role" class="custom-select">
-            <form:option value="" label="--Please Select--"/>
-            <form:options items="${role}" itemValue="id" itemLabel="name"/>
-        </form:select>
-
-        <form:select path="role">
-            <form:options items="${roles}" itemValue="name()" itemLabel="name()" />
-        </form:select>
+        <form:label path="password">Password</form:label>
+        <form:password path="password" class="form-control"/>
+        <form:errors path="password" class="invalid-feedback d-block"/>
     </div>
 
     <div class="form-group">
